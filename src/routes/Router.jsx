@@ -6,7 +6,7 @@ import Home from "../pages/Home/Home.jsx";
 import ConsultDiscipline from "../pages/ConsultDiscipline/ConsultDiscipline.jsx";
 import ConsultTeachers from "../pages/ConsultTeachers/ConsultTeachers.jsx";
 import Discipline from "../pages/Discipline/Discipline.jsx";
-// import DisciplineAdd from "../pages/Discipline/DisciplineAdd.jsx";
+import Certificate from "../pages/Certificate/Certificate.jsx";
 import DisciplineEdit from "../pages/Discipline/DisciplineEdit.jsx";
 import Teachers from "../pages/Teachers/Teachers.jsx";
 import TeachersEdit from "../pages/Teachers/TeachersEdit.jsx";
@@ -97,6 +97,14 @@ function Router() {
               element={
                 <ProtectedRoute>
                   <TeachersEdit />
+                </ProtectedRoute>
+              } 
+            />
+            <Route
+              path={`/certificate`}
+              element={
+                <ProtectedRoute>
+                  <Certificate />
                 </ProtectedRoute>
               } 
             />

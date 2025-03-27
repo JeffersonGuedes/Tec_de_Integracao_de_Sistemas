@@ -12,6 +12,7 @@ function NavBar() {
                 <Section Icon={'person_search'} Text={'Consultar Professores'} link={'/consultar_professores'}></Section>
                 <Section Icon={'person_add'} Text={'Professores'} link={'/professor'}></Section>
                 <Section Icon={'menu_book'} Text={'Disciplinas'} link={'/disciplina'}></Section>
+                <Section Icon={'description'} Text={'Certificado'} link={'/certificate'}></Section>
             </div>
         </>
     )
