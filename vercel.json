@@ -1,5 +1,17 @@
 {
     "rewrites": [
-      { "source": "/(.*)", "destination": "/index.html" }
+      { "source": "/", "destination": "/index.html" },
+      { "source": "/home", "destination": "/index.html" },
+      { "source": "/auth_register", "destination": "/index.html" },
+      { "source": "/consultar_disciplinas", "destination": "/index.html" },
+      { "source": "/consultar_professores", "destination": "/index.html" },
+      { "source": "/auth_reset", "destination": "/index.html" },
+      { "source": "/disciplina", "destination": "/index.html" },
+      { "source": "/disciplina/add", "destination": "/index.html" },
+      { "source": "/disciplina/edit/:id", "destination": "/index.html" },
+      { "source": "/professor", "destination": "/index.html" },
+      { "source": "/professor/add", "destination": "/index.html" },
+      { "source": "/professor/edit/:id", "destination": "/index.html" },
+      { "source": "/certificate", "destination": "/index.html" }
     ]
   }
