@@ -4,24 +4,51 @@ import api from "../../services/api";
 import { Link } from "react-router-dom";
 import Btn from "../../Components/Button/Btn.jsx";
 
-
 function Discipline() {
+    const mockData = [
+        {
+            id: 1,
+            nome: "Matemática Básica"
+        },
+        {
+            id: 2,
+            nome: "Física Aplicada"
+        },
+        {
+            id: 3,
+            nome: "Química Geral"
+        },
+        {
+            id: 4,
+            nome: "Biologia Molecular"
+        },
+        {
+            id: 5,
+            nome: "História Contemporânea"
+        }
+    ];
 
-    const [disciplinas, setDisciplinas] = useState([]);
+    const [disciplinas, setDisciplinas] = useState(mockData);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
 
     useEffect(() => {
         const fetchDisciplinas = async () => {
             try {
                 setLoading(true);
                 const response = await api.get('/api/v1/disciplinas/');
-                setDisciplinas(response.data.results);
-                setError(null);
+                
+                if (response.data && response.data.results && response.data.results.length > 0) {
+                    setDisciplinas(response.data.results);
+                    setError(null);
+                } else {
+                    setDisciplinas(mockData);
+                    setError("API retornou vazia - usando dados de exemplo");
+                }
             } catch (err) {
-                console.error("Erro ao buscar disciplinas:", err);
-                setError("Não foi possível carregar os disciplinas. Por favor, tente novamente mais tarde.");
+                console.error("Erro ao buscar disciplinas da API:", err);
+                setDisciplinas(mockData);
+                setError("API indisponível - usando dados de exemplo");
             } finally {
                 setLoading(false);
             }
@@ -64,12 +91,12 @@ function Discipline() {
                         {loading && <p className="text-gray-600">Carregando diciplinas...</p>}
 
                         {error && (
-                            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                                {error}
+                            <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+                                <strong>Aviso:</strong> {error}
                             </div>
                         )}
 
-                        {!loading && !error && (
+                        {!loading && disciplinas && disciplinas.length > 0 && (
                             <div className="overflow-x-auto">
                                 <table className="min-w-full bg-white border border-gray-200" id="dataTable-4">
                                     <thead className="bg-gray-100">
@@ -80,46 +107,44 @@ function Discipline() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {disciplinas.length > 0 ? (
-                                            disciplinas.map((disciplina) => (
-                                                <tr key={disciplina.id} className="hover:bg-gray-50">
-                                                    <td className="py-2 px-4 border-b">
-                                                        <p className="text-blue-600 hover:underline" id="infoTabela">
-                                                            {disciplina.id}
-                                                        </p>
-                                                    </td>
-                                                    <td className="py-2 px-4 border-b">
-                                                        <p className="text-blue-600 hover:underline" id="infoTabela">
-                                                            {disciplina.nome}
-                                                        </p>
-                                                    </td>
-                                                    <td className="py-2 px-4 border-b">
-                                                        <div className="flex space-x-2">
-                                                            <Link
-                                                                to={`/disciplina/edit/${disciplina.id}`}
-                                                                className="text-blue-600 hover:underline"
-                                                            >
-                                                                <span className="material-icons text-[20px]">edit</span>
-                                                            </Link>
-                                                            <button
-                                                                onClick={() => handleDelete(disciplina.id)}
-                                                                className="text-red-600 hover:underline"
-                                                            >
-                                                                <span className="material-icons text-[20px]">delete</span>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        ) : (
-                                            <tr>
-                                                <td colSpan="4" className="py-4 px-4 text-center text-gray-500">
-                                                    Nenhum disciplina encontrado
+                                        {disciplinas.map((disciplina) => (
+                                            <tr key={disciplina.id ? disciplina.id : Math.random()} className="hover:bg-gray-50">
+                                                <td className="py-2 px-4 border-b">
+                                                    <p className="text-blue-600 hover:underline" id="infoTabela">
+                                                        {disciplina.id ? disciplina.id : "N/A"}
+                                                    </p>
+                                                </td>
+                                                <td className="py-2 px-4 border-b">
+                                                    <p className="text-blue-600 hover:underline" id="infoTabela">
+                                                        {disciplina.nome ? disciplina.nome : "N/A"}
+                                                    </p>
+                                                </td>
+                                                <td className="py-2 px-4 border-b">
+                                                    <div className="flex space-x-2">
+                                                        <Link
+                                                            to={`/disciplina/edit/${disciplina.id}`}
+                                                            className="text-blue-600 hover:underline"
+                                                        >
+                                                            <span className="material-icons text-[20px]">edit</span>
+                                                        </Link>
+                                                        <button
+                                                            onClick={() => handleDelete(disciplina.id)}
+                                                            className="text-red-600 hover:underline"
+                                                        >
+                                                            <span className="material-icons text-[20px]">delete</span>
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
-                                        )}
+                                        ))}
                                     </tbody>
                                 </table>
+                            </div>
+                        )}
+
+                        {!loading && (!disciplinas || disciplinas.length === 0) && !error && (
+                            <div className="text-center py-8 text-gray-500">
+                                Nenhuma disciplina encontrada.
                             </div>
                         )}
                     </div>

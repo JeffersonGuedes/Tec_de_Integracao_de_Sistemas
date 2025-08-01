@@ -5,21 +5,55 @@ import { Link } from "react-router-dom";
 import Btn from "../../Components/Button/Btn.jsx";
 
 function Teachers() {
-    const [professors, setProfessors] = useState([]);
+    const mockData = [
+        {
+            id: 1,
+            nome: "Prof. João Silva",
+            especializacao: "Matemática Aplicada"
+        },
+        {
+            id: 2,
+            nome: "Prof. Maria Santos",
+            especializacao: "Física Teórica"
+        },
+        {
+            id: 3,
+            nome: "Prof. Carlos Oliveira",
+            especializacao: "Química Orgânica"
+        },
+        {
+            id: 4,
+            nome: "Prof. Ana Costa",
+            especializacao: "Biologia Molecular"
+        },
+        {
+            id: 5,
+            nome: "Prof. Pedro Ferreira",
+            especializacao: "História Contemporânea"
+        }
+    ];
+
+    const [professors, setProfessors] = useState(mockData);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
 
     useEffect(() => {
         const fetchProfessors = async () => {
             try {
                 setLoading(true);
                 const response = await api.get('/api/v1/professores/');
-                setProfessors(response.data.results);
-                setError(null);
+                
+                if (response.data && response.data.results && response.data.results.length > 0) {
+                    setProfessors(response.data.results);
+                    setError(null);
+                } else {
+                    setProfessors(mockData);
+                    setError("API retornou vazia - usando dados de exemplo");
+                }
             } catch (err) {
-                console.error("Erro ao buscar professores:", err);
-                setError("Não foi possível carregar os professores. Por favor, tente novamente mais tarde.");
+                console.error("Erro ao buscar professores da API:", err);
+                setProfessors(mockData);
+                setError("API indisponível - usando dados de exemplo");
             } finally {
                 setLoading(false);
             }
@@ -61,12 +95,12 @@ function Teachers() {
                     {loading && <p className="text-gray-600">Carregando professores...</p>}
 
                     {error && (
-                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                            {error}
+                        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+                            <strong>Aviso:</strong> {error}
                         </div>
                     )}
 
-                    {!loading && !error && (
+                    {!loading && professors && professors.length > 0 && (
                         <div className="overflow-x-auto">
                             <table className="min-w-full bg-white border border-gray-200" id="dataTable-4">
                                 <thead className="bg-gray-100">
@@ -78,51 +112,49 @@ function Teachers() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {professors.length > 0 ? (
-                                        professors.map((professor) => (
-                                            <tr key={professor.id} className="hover:bg-gray-50">
-                                                <td className="py-2 px-4 border-b">
-                                                    <p className="text-blue-600 hover:underline" id="infoTabela">
-                                                        {professor.id}
-                                                    </p>
-                                                </td>
-                                                <td className="py-2 px-4 border-b">
-                                                    <p className="text-blue-600 hover:underline" id="infoTabela">
-                                                        {professor.nome}
-                                                    </p>
-                                                </td>
-                                                <td className="py-2 px-4 border-b">
-                                                    <p className="text-blue-600 hover:underline" id="infoTabela">
-                                                        {professor.especializacao}
-                                                    </p>
-                                                </td>
-                                                <td className="py-2 px-4 border-b">
-                                                    <div className="flex space-x-2">
-                                                        <Link
-                                                            to={`/professor/edit/${professor.id}`}
-                                                            className="text-blue-600 hover:underline"
-                                                        >
-                                                            <span className="material-icons text-[20px]">edit</span>
-                                                        </Link>
-                                                        <button
-                                                            onClick={() => handleDelete(professor.id)}
-                                                            className="text-red-600 hover:underline"
-                                                        >
-                                                            <span className="material-icons text-[20px]">delete</span>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="4" className="py-4 px-4 text-center text-gray-500">
-                                                Nenhum professor encontrado
+                                    {professors.map((professor) => (
+                                        <tr key={professor.id ? professor.id : Math.random()} className="hover:bg-gray-50">
+                                            <td className="py-2 px-4 border-b">
+                                                <p className="text-blue-600 hover:underline" id="infoTabela">
+                                                    {professor.id ? professor.id : "N/A"}
+                                                </p>
+                                            </td>
+                                            <td className="py-2 px-4 border-b">
+                                                <p className="text-blue-600 hover:underline" id="infoTabela">
+                                                    {professor.nome ? professor.nome : "N/A"}
+                                                </p>
+                                            </td>
+                                            <td className="py-2 px-4 border-b">
+                                                <p className="text-blue-600 hover:underline" id="infoTabela">
+                                                    {professor.especializacao ? professor.especializacao : "N/A"}
+                                                </p>
+                                            </td>
+                                            <td className="py-2 px-4 border-b">
+                                                <div className="flex space-x-2">
+                                                    <Link
+                                                        to={`/professor/edit/${professor.id}`}
+                                                        className="text-blue-600 hover:underline"
+                                                    >
+                                                        <span className="material-icons text-[20px]">edit</span>
+                                                    </Link>
+                                                    <button
+                                                        onClick={() => handleDelete(professor.id)}
+                                                        className="text-red-600 hover:underline"
+                                                    >
+                                                        <span className="material-icons text-[20px]">delete</span>
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
-                                    )}
+                                    ))}
                                 </tbody>
                             </table>
+                        </div>
+                    )}
+
+                    {!loading && (!professors || professors.length === 0) && !error && (
+                        <div className="text-center py-8 text-gray-500">
+                            Nenhum professor encontrado.
                         </div>
                     )}
                 </div>

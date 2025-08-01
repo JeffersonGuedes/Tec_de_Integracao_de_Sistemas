@@ -24,88 +24,88 @@ function Router() {
             <Route 
               path="/auth_register" 
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <AuthRegister/>
-                </ProtectedRoute>
               } />
             <Route 
               path="/home" 
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <Home />
-                </ProtectedRoute>
               } 
             />
             <Route 
               path="/consultar_disciplinas" 
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <ConsultDiscipline />
-                </ProtectedRoute>
               } 
             />
             <Route 
               path="/consultar_professores" 
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <ConsultTeachers />
-                </ProtectedRoute>
               } 
             />
             <Route 
               path="/disciplina" 
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <Discipline />
-                </ProtectedRoute>
               } 
             />
             <Route 
               path="/disciplina/add" 
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <DisciplineEdit />
-                </ProtectedRoute>
               } 
             />
             <Route 
               path={`/disciplina/edit/:id`} 
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <DisciplineEdit />
-                </ProtectedRoute>
               } 
             />
             <Route 
               path="/professor" 
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <Teachers />
-                </ProtectedRoute>
               } 
             />
             <Route 
               path="/professor/add" 
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <TeachersEdit />
-                </ProtectedRoute>
               } 
             />
             <Route
               path={`/professor/edit/:id`}
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <TeachersEdit />
-                </ProtectedRoute>
               } 
             />
             <Route
               path={`/certificate`}
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
+                // </ProtectedRoute>
                   <Certificate />
-                </ProtectedRoute>
               } 
             />
             <Route path="*" element={<Error />} />
